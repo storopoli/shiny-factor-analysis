@@ -47,9 +47,9 @@ shinyUI(fluidPage(
         mainPanel(
             tabsetPanel(
                 tabPanel("Raw Data", dataTableOutput("dataframe")),
-                tabPanel("KMO Removed", verbatimTextOutput("KMORemovedList")),
+                tabPanel("KMO Removed", tableOutput("KMORemovedList")),
                 tabPanel("Scree Plot", plotOutput("screePlot")),
-                tabPanel("Rotated Factor/Component Table"), tableOutput("rotatedTable"))
+                tabPanel("Rotated Factor/Component Table"), dataTableOutput("rotatedTable"))
             )
         )
     )

@@ -6,8 +6,6 @@
 #
 #    http://shiny.rstudio.com/
 #
-
-library(shiny)
 source("helpers.R")
 
 shinyServer(function(input, output, session) {
@@ -15,11 +13,13 @@ shinyServer(function(input, output, session) {
     inFile <- reactive({input$dataFile})
     data <- reactive({
         if (is.null(inFile())) return(NULL)
-        readr::read_tsv(inFile()$datapath)[,-1]
+        data <- read.table(inFile()$datapath, sep = '\t', header = TRUE)
+        data$X <- NULL
+        return(data)
     })
     output$dataframe <- renderDataTable({
         input$LoadButton
-        data <- isolate(data())
+        data()
     }, options = list(
         pageLength=50, 
         scrollX='400px'), 
@@ -31,31 +31,35 @@ shinyServer(function(input, output, session) {
     # KMO Removal
     kmo_removed <- reactive({
         input$LoadButton
-        data <- isolate(data())
+        require(data()) 
         kmo_optimal_solution(df = data())})
     
-    output$KMORemovedList <- renderPrint({
+    output$KMORemovedList <- renderTable({
         require(data()) 
         kmo_optimal_solution(df = data())$removed})
     
     # Scree Plot
     output$screePlot <- renderPlot({
         require(kmo_removed()) 
-        require(input$fa())
-        screePlotAPA(kmo_optimal_solution(df = data())$df, fa = fa())
+        require(input$fa)
+        screePlotAPA(data = kmo_removed()$df, fa = input$fa)
         })
     
     # Factor/PC Analysis
-    #if (input$fa=="fa") {
-    #    results <- psych::fa(data_kmo_removed, nfactors = input$nfactor, scores = T, rotate = "varimax")
-    #}
-    #if (input$fa=="pc") {
-    #    results <- psych::principal(data_kmo_removed, nfactors = input$nfactor, scores = T, rotate = "varimax")
-    #}
-    #output$rotatedTable <- data.frame(
-    #    unclass(results$loadings),
-    #    row.names = rownames(results$weights),
-    #    rownames = T,
-    #    digits = 3
-    #)
+    results <- reactive({
+        require(kmo_removed())
+        require(input$fa)
+        require(input$nfactor)
+        if (input$fa=="pc") {
+            return(psych::principal(kmo_removed()$df, nfactors = input$nfactor, scores = T, rotate = "varimax"))}
+        if (input$fa=="fa") {
+            return(psych::fa(kmo_removed()$df, nfactors = input$nfactor, scores = T, rotate = "varimax"))}
+    })
+    output$rotatedTable <- renderDataTable({
+        if (is.null(inFile())) return(NULL)
+        data.frame(unclass(results()$loadings))},
+        options = list(
+            pageLength=100, 
+            scrollX='400px'), 
+        filter = 'top')
     })

@@ -12,7 +12,8 @@ It is made to input a square matrix `ma2` raw file from `BibExcel` withou *any* 
 ## Installation
 
 ``` R
-# install.packages("shiny")
+install.packages(c("psych", "ggplot2", "devtools", "shiny"))
+devtools::install_github("storopoli/FactorAssumptions")
 library(shiny)
 runGitHub( "shiny-factor-analysis", "storopoli")
 ```
@@ -64,7 +65,6 @@ Jose Eduardo Storopoli [e-mail](mailto:thestoropoli@gmail.com)
 
 # Road Map
 
-* **Remove KMOs**: Have to adjust the reactive functions in `shiny`
 * **Communalities in dataframe**: Have to input it in the raw data
 
 # References

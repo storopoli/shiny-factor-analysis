@@ -1,8 +1,19 @@
 #install.packages(c("psych", "ggplot2", "devtools"))
 #devtools::install_github("storopoli/FactorAssumptions")
+if (!require("shiny")) install.packages("shiny", dependencies = TRUE) 
+if (!require("psych")) install.packages("psych", dependencies = TRUE) 
+if (!require("DT")) install.packages("DT", dependencies = TRUE) 
+if (!require("ggplot2")) install.packages("ggplot2", dependencies = TRUE)
+if (!require("devtools")) install.packages("devtools", dependencies = TRUE) 
+if (!requireNamespace("devtools", quietly = TRUE)) {
+  install.packages("devtools")
+}
+if (!requireNamespace("FactorAssumptions", quietly = TRUE)) {
+  devtools::install_github("storopoli/FactorAssumptions")
+}
+
 library(psych)
 library(ggplot2)
-library(readr)
 library(FactorAssumptions)
 library(DT)
 
