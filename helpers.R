@@ -4,6 +4,7 @@ if (!require("shiny")) install.packages("shiny", dependencies = TRUE)
 if (!require("psych")) install.packages("psych", dependencies = TRUE) 
 if (!require("DT")) install.packages("DT", dependencies = TRUE) 
 if (!require("ggplot2")) install.packages("ggplot2", dependencies = TRUE)
+if (!require("nFactors")) install.packages("nFactors", dependencies = TRUE)
 if (!require("devtools")) install.packages("devtools", dependencies = TRUE) 
 if (!requireNamespace("devtools", quietly = TRUE)) {
   install.packages("devtools")
@@ -15,6 +16,7 @@ if (!requireNamespace("FactorAssumptions", quietly = TRUE)) {
 library(psych)
 library(ggplot2)
 library(FactorAssumptions)
+library(nFactors)
 library(DT)
 
 screePlotAPA <- function(data, fa = 'pc', n.iter = 1000, quant = .95) {
