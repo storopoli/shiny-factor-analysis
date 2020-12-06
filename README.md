@@ -1,4 +1,4 @@
-# Factor Analysis Dashboard `R ` `Shiny` App
+# Factor Analysis Dashboard `R` `Shiny` App
 
 A `R` `Shiny` app that does a set of assumptions for Factor and Principal Component Analysis. Tests for Kaiser-Meyer-Olkin (KMO) in a dataset. It provides a final sample by removing variables in a iterable manner while keeping account of the variables that were removed in each step.
 
